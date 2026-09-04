@@ -63,7 +63,7 @@ export const ConfirmDialog: FC<ConfirmDialogProps> = ({
       ref={dialogRef}
       onClick={handleBackdropClick}
       onKeyDown={handleKeyDown}
-      className="backdrop:bg-ink-900/40 backdrop:backdrop-blur-sm p-0 rounded-2xl bg-white border border-parchment-200 shadow-2xl max-w-md w-full mx-auto fixed inset-0 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+      className="backdrop:bg-slate-900/40 backdrop:backdrop-blur-sm p-0 rounded-2xl bg-white border border-slate-200 shadow-2xl max-w-md w-full mx-auto fixed inset-0 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-150"
     >
       <div className="p-6">
         <div className="flex items-start gap-4">
@@ -73,17 +73,17 @@ export const ConfirmDialog: FC<ConfirmDialogProps> = ({
 
           <div className="flex-1">
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-bold font-serif text-ink-900">{title}</h3>
+              <h3 className="text-base font-bold font-serif text-slate-900">{title}</h3>
               <button
                 type="button"
                 onClick={onCancel}
-                className="text-ink-400 hover:text-ink-700 p-1 rounded transition-colors"
+                className="text-slate-400 hover:text-slate-700 p-1 rounded transition-colors"
                 aria-label="关闭"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <p className="mt-2 text-xs sm:text-sm text-ink-600 leading-relaxed">
+            <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
               {message}
             </p>
           </div>
@@ -94,7 +94,7 @@ export const ConfirmDialog: FC<ConfirmDialogProps> = ({
             ref={cancelButtonRef}
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 rounded-lg text-xs sm:text-sm font-medium text-ink-700 bg-parchment-100 hover:bg-parchment-200 border border-parchment-300 transition-colors"
+            className="px-4 py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-colors"
           >
             {cancelLabel}
           </button>

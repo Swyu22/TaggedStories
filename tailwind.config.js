@@ -7,39 +7,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        parchment: {
-          50: '#faf8f5',
-          100: '#f5f0e8',
-          200: '#eae0d0',
-          300: '#dbccb3',
-          400: '#c7b091',
-          500: '#b49673',
-          600: '#9b7d5d',
-          700: '#7e644b',
-          800: '#67523f',
-          900: '#544336',
+        brand: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+          950: '#172554',
         },
-        ink: {
-          900: '#1a1917',
-          800: '#2c2a26',
-          700: '#43403a',
-          600: '#5e5a52',
-          500: '#7c776d',
-          400: '#9e998e',
-          300: '#c5c0b6',
-          200: '#e2dfd8',
-          100: '#f1efe9',
-        },
-        vermilion: {
-          DEFAULT: '#c04838',
-          hover: '#a83c2e',
-          light: '#f9edea',
-        },
-        sage: {
-          DEFAULT: '#53705f',
-          hover: '#425b4d',
-          light: '#eef3f0',
-        }
       },
       fontFamily: {
         serif: ['"Noto Serif SC"', '"Source Han Serif SC"', 'STSong', 'SimSun', 'serif'],

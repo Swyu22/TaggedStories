@@ -235,7 +235,7 @@ export const App = () => {
   }, [clearDraft, showToast]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-parchment-50 font-sans text-ink-900">
+    <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-900">
       <AppHeader />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
@@ -295,9 +295,9 @@ export const App = () => {
       <Toast toasts={toasts} onDismiss={removeToast} />
 
       {/* Footer */}
-      <footer className="border-t border-parchment-200 bg-parchment-100/60 py-6 text-center text-xs text-ink-500">
+      <footer className="border-t border-slate-200 bg-white/80 py-6 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 space-y-1">
-          <p className="font-serif font-medium text-ink-700">
+          <p className="font-serif font-medium text-slate-700">
             Tagged Story Synopsis · 本地化故事梗概提示词生成器
           </p>
           <p>

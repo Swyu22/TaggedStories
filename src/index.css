@@ -17,10 +17,10 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #dbccb3;
+    background: #cbd5e1;
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #b49673;
+    background: #94a3b8;
   }
 }

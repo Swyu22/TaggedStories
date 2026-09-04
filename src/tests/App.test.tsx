@@ -36,13 +36,20 @@ describe('App Component Interaction Tests', () => {
     expect(resultTextarea.value).toContain('一名普通少年意外获得了穿越时间的能力');
   });
 
-  // 3. 点击标签可选中和取消，已选标签区显示
-  it('should toggle tag selection on click and reflect in selected panel', async () => {
+  // 3. 点击一级折叠展开二级分类，点击二级折叠展开标签并可选中与取消
+  it('should support two-level accordion expansion and tag selection', async () => {
     render(<App />);
 
-    // Expand first accordion group if closed
+    // Level 1: Expand "一、受众定位"
     const groupBtn = screen.getByRole('button', { name: /一、受众定位/i });
     fireEvent.click(groupBtn);
+
+    // Verify Level 2 subcategories appear
+    const subcategoryBtn = screen.getByRole('button', { name: /频道与消费倾向/i });
+    expect(subcategoryBtn).toBeInTheDocument();
+
+    // Level 2: Expand "频道与消费倾向"
+    fireEvent.click(subcategoryBtn);
 
     // Click on "男性向" tag
     const tagOption = screen.getByRole('checkbox', { name: /男性向/i });
@@ -70,19 +77,22 @@ describe('App Component Interaction Tests', () => {
     expect(screen.getByText('确认清空全部内容？')).toBeInTheDocument();
   });
 
-  // 5. 搜索功能过滤分类但不清除选中状态
+  // 5. 搜索功能过滤分类但不清除选中状态，且自动展开匹配项
   it('should filter tags during search while keeping selection', async () => {
     render(<App />);
 
-    // Select a tag first
+    // Expand Level 1 & Level 2 and select a tag
     const groupBtn = screen.getByRole('button', { name: /一、受众定位/i });
     fireEvent.click(groupBtn);
+
+    const subcategoryBtn = screen.getByRole('button', { name: /频道与消费倾向/i });
+    fireEvent.click(subcategoryBtn);
 
     const tagOption = screen.getByRole('checkbox', { name: /男性向/i });
     fireEvent.click(tagOption);
     expect(tagOption).toHaveAttribute('aria-checked', 'true');
 
-    // Search for another tag
+    // Search for another tag (auto expands matching categories)
     const searchInput = screen.getByPlaceholderText(/搜索标签名称或分类名称/i);
     fireEvent.change(searchInput, { target: { value: '悬疑' } });
 
