@@ -4,6 +4,7 @@ import { parseTagMarkdown } from '../lib/parseTagMarkdown';
 import { buildPrompt } from '../lib/buildPrompt';
 import { copyToClipboard } from '../lib/clipboard';
 import { downloadMarkdown } from '../lib/downloadMarkdown';
+import { parseExportedMarkdown } from '../lib/parseExportedMarkdown';
 import { useLocalDraft } from '../hooks/useLocalDraft';
 import { useToast } from '../hooks/useToast';
 import { AppHeader } from '../components/AppHeader';
@@ -57,6 +58,36 @@ export const App = () => {
       }
     },
     [setForm, synopsisError]
+  );
+
+  // Import previously exported markdown to restore form & tags
+  const handleImportExportedMarkdown = useCallback(
+    (content: string) => {
+      try {
+        const parsed = parseExportedMarkdown(content, categories);
+        if (!parsed.form.originalSynopsis && parsed.matchedTagsCount === 0 && !parsed.form.title) {
+          showToast('未能识别到有效的提示词结构，请确认文件是否为此前导出的 MD', 'error');
+          return;
+        }
+        setForm(parsed.form);
+        setSelectedTags(parsed.selectedTags);
+        setLastResult({
+          text: content,
+          characterCount: content.length,
+          generatedAt: new Date().toISOString(),
+          isRestoredDraft: true,
+        });
+        setSynopsisError('');
+        const titleDisplay = parsed.form.title ? `《${parsed.form.title}》` : '';
+        showToast(
+          `已成功载入${titleDisplay}文档，已恢复故事资料并自动勾选 ${parsed.matchedTagsCount} 个标签`,
+          'success'
+        );
+      } catch (e: any) {
+        showToast(e?.message || '载入 MD 文档解析失败', 'error');
+      }
+    },
+    [categories, setForm, setSelectedTags, setLastResult, showToast]
   );
 
   // Tag selection handlers
@@ -245,6 +276,7 @@ export const App = () => {
           form={form}
           onChange={handleFormFieldChange}
           errorSynopsis={synopsisError}
+          onImportExportedMarkdown={handleImportExportedMarkdown}
         />
 
         {/* Step 2: Tag Selection */}

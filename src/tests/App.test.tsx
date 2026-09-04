@@ -103,4 +103,49 @@ describe('App Component Interaction Tests', () => {
     fireEvent.change(searchInput, { target: { value: '' } });
     expect(screen.getByText('已选择 1 个标签')).toBeInTheDocument();
   });
+
+  // 6. 载入已导出的 MD 文件并恢复资料与标签
+  it('should load an exported MD file and restore form fields and checked tags', async () => {
+    render(<App />);
+
+    const exportedMd = `
+你的身份是一名资深职业编剧...
+
+以下是我提供的创作资料：
+
+【故事名称】
+流浪地球探秘
+
+【故事标签】
+一、受众定位／受众与市场定位标签／频道与消费倾向：男性向
+
+【原始故事梗概】
+太阳即将毁灭，人类开启行星发动机逃离太阳系。
+
+【不可更改的核心设定】
+地球必须保留地下城设定。
+
+【其他创作要求】
+强化史诗感与牺牲精神。
+
+现在，请根据以上全部资料，直接输出一篇1000—1500字、符合5W1H原则、因果完整、冲突清晰、结构闭环的专业故事梗概。
+    `;
+
+    // Locate the file input for loading MD
+    const fileInput = screen.getByLabelText(/载入 MD 文档/i);
+    const file = new File([exportedMd], 'Tagged_Story_Synopsis_流浪地球探秘.md', {
+      type: 'text/markdown',
+    });
+
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    // Verify form fields restored
+    expect(await screen.findByDisplayValue('流浪地球探秘')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('太阳即将毁灭，人类开启行星发动机逃离太阳系。')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('地球必须保留地下城设定。')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('强化史诗感与牺牲精神。')).toBeInTheDocument();
+
+    // Verify tag restored in selected tags panel
+    expect(screen.getByText('已选择 1 个标签')).toBeInTheDocument();
+  });
 });

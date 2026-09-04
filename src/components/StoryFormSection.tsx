@@ -1,22 +1,53 @@
 import { forwardRef } from 'react';
+import type { ChangeEvent } from 'react';
 import { StoryFormData } from '../types';
-import { BookMarked, AlertCircle } from 'lucide-react';
+import { BookMarked, AlertCircle, FileDown } from 'lucide-react';
 
 interface StoryFormSectionProps {
   form: StoryFormData;
   onChange: (field: keyof StoryFormData, value: string) => void;
   errorSynopsis?: string;
+  onImportExportedMarkdown?: (content: string) => void;
 }
 
 export const StoryFormSection = forwardRef<HTMLTextAreaElement, StoryFormSectionProps>(
-  ({ form, onChange, errorSynopsis }, ref) => {
+  ({ form, onChange, errorSynopsis, onImportExportedMarkdown }, ref) => {
+    const handleFileLoad = (e: ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file || !onImportExportedMarkdown) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const text = event.target?.result as string;
+        if (text) {
+          onImportExportedMarkdown(text);
+        }
+      };
+      reader.readAsText(file, 'utf-8');
+      e.target.value = '';
+    };
+
     return (
       <section className="bg-white rounded-xl border border-slate-200 p-5 sm:p-6 shadow-sm">
-        <div className="flex items-center gap-2 pb-4 mb-5 border-b border-slate-100">
-          <BookMarked className="w-5 h-5 text-brand-600" />
-          <h2 className="text-lg font-bold font-serif text-slate-900">
-            步骤一：填写故事资料
-          </h2>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-5 border-b border-slate-100">
+          <div className="flex items-center gap-2">
+            <BookMarked className="w-5 h-5 text-brand-600" />
+            <h2 className="text-lg font-bold font-serif text-slate-900">
+              步骤一：填写故事资料
+            </h2>
+          </div>
+
+          {onImportExportedMarkdown && (
+            <label className="cursor-pointer inline-flex items-center gap-1.5 text-xs text-brand-700 bg-brand-50 hover:bg-brand-100/80 border border-brand-200 px-3 py-1.5 rounded-lg transition-colors font-medium self-start sm:self-auto shadow-xs">
+              <FileDown className="w-3.5 h-3.5 text-brand-600" />
+              <span>载入 MD 文档（恢复资料与标签）</span>
+              <input
+                type="file"
+                accept=".md,text/markdown,text/plain"
+                onChange={handleFileLoad}
+                className="hidden"
+              />
+            </label>
+          )}
         </div>
 
         <div className="space-y-5">
